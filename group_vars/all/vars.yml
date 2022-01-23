@@ -1,0 +1,16 @@
+username: ubuntu
+
+packages:
+  - nginx
+
+snaps:
+  - docker
+  - btop
+
+hostname: "{{ inventory_hostname }}"
+
+timezone: Australia/Queensland
+
+locale: en_US.UTF-8
+
+lan_network: "192.168.50.0/24"

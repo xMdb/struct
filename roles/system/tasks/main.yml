@@ -1,0 +1,75 @@
+- name: Update packages
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: Uninstall old/unwanted packages
+  apt:
+    autoremove: yes
+
+- name: Uninstall duplicate snap packages
+  package:
+    name: "{{ snaps }}"
+    state: absent
+
+- name: Install essential packages (apt)
+  package:
+    name: "{{ packages }}"
+    state: latest
+
+- name: Install essential packages (snap)
+  snap:
+    name: "{{ snaps }}"
+
+- name: Disable SSH password auth
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#PasswordAuthentication yes"
+    line: "PasswordAuthentication no"
+  register: sshd_config
+
+- name: Enable passwordless sudo for "{{ username }}" user
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: "^%wheel%"
+    line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: Restart SSH daemon
+  service:
+    name: sshd
+    state: restarted
+  when: sshd_config.changed
+
+- name: Check if reboot required
+  stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: Reboot if required
+  reboot:
+    msg: Rebooting due to a kernel update
+  when: reboot_required_file.stat.exists
+
+- name: Set the hostname
+  hostname:
+    name: "{{ hostname }}"
+
+- name: Replace the hostname entry with our own
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    insertafter: ^127\.0\.0\.1 *localhost
+    line: "127.0.0.1 {{ hostname }}"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Disable cron e-mail notifications
+  cron:
+    name: MAILTO
+    user: "{{ item }}"
+    env: yes
+    job: ""
+  with_items:
+    - root
+    - "{{ username }}"
