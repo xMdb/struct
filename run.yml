@@ -2,4 +2,39 @@
 - hosts: all
   become: yes
   roles:
-    - role: system
+
+  #
+  # Basics
+  #
+    - role: system/essential
+      tags:
+        - essential
+        - system
+    
+    - role: system/shell
+      tags:
+        - shell
+        - zsh
+        - oh-my-zsh
+        - system
+    
+    - role: system/docker
+      tags:
+        - docker
+        - system
+
+  #
+  # Containers
+  #
+    - role: containers/services/pihole
+      tags:
+        - pihole
+        - containers
+        - services
+    
+    # - role: containers/personal/firefly
+    #   become: no
+    #   tags:
+    #     - firefly
+    #     - containers
+    #     - personal

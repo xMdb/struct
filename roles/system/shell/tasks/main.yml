@@ -1,0 +1,31 @@
+- name: Install zsh
+  package:
+    name: zsh
+    state: latest
+
+- name: Install oh-my-zsh
+  git: repo=https://github.com/robbyrussell/oh-my-zsh dest=~/.oh-my-zsh
+  become: no
+
+- name: Install Powerlevel10k
+  git: repo=https://github.com/romkatv/powerlevel10k dest=~/.oh-my-zsh/custom/themes/powerlevel10k
+  become: no
+
+- name: Install zsh-autosuggestions
+  git: repo=https://github.com/zsh-users/zsh-autosuggestions dest=~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  become: no
+
+- name: Copy .zshrc file
+  command: curl -LSso ~/.zshrc "{{ zshrc_url }}"
+  become: no
+
+- name: Copy .p10k.zsh file
+  command: curl -LSso ~/.p10k.zsh "{{ p10k_config_url }}"
+  become: no
+
+- name: Get zsh path
+  command: which zsh 
+  register: zsh_path
+
+- name: Switch to zsh
+  user: name={{ansible_ssh_user}} shell={{ zsh_path.stdout }}
