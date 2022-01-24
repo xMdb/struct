@@ -8,9 +8,22 @@ Inspired by Wolfgang's [Infra](https://github.com/notthebee/infra). Check out [h
 
 ## Features
 
+### General
+
 - Installs/updates/upgrades packages, disables password SSH and sets custom hostname
 - Installs zsh with oh-my-zsh and a custom Powerline10k theme, sets the default shell as zsh
-- 
+- Installs and configures Docker (as well as docker-compose and the Ansible Docker module)
+
+### Services
+
+Installs and configures the following: 
+
+- PiHole + Unbound (DNS filter)
+- Firefly III (personal finance manager)
+
+### Networking
+
+- Configures all applications/services to use SWAG, which includes an Nginx reverse proxy, SSL, and fail2ban.
 
 ## Usage
 
