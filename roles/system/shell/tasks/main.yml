@@ -3,9 +3,15 @@
     name: zsh
     state: latest
 
+- name: Check if oh-my-zsh is already installed
+  stat:
+    path: ~/.oh-my-zsh
+  register: omz_dir
+
 - name: Install oh-my-zsh
   git: repo=https://github.com/robbyrussell/oh-my-zsh dest=~/.oh-my-zsh
   become: no
+  when: omz_dir.stat.islnk is defined
 
 - name: Install Powerlevel10k
   git: repo=https://github.com/romkatv/powerlevel10k dest=~/.oh-my-zsh/custom/themes/powerlevel10k
@@ -24,7 +30,7 @@
   become: no
 
 - name: Get zsh path
-  command: which zsh 
+  command: which zsh
   register: zsh_path
 
 - name: Switch to zsh

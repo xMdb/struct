@@ -22,6 +22,17 @@
       tags:
         - docker
         - system
+        - containers
+
+  #
+  # Networking
+  #
+    - role: networking/swag
+      tags:
+        - network
+        - networking
+        - swag
+        - containers
 
   #
   # Containers
@@ -32,9 +43,8 @@
         - containers
         - services
     
-    # - role: containers/personal/firefly
-    #   become: no
-    #   tags:
-    #     - firefly
-    #     - containers
-    #     - personal
+    - role: containers/personal/firefly
+      tags:
+        - firefly
+        - containers
+        - personal

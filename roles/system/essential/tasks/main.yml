@@ -12,14 +12,14 @@
     name: "{{ snaps }}"
     state: absent
 
-- name: Install essential packages (apt)
+- name: Install additional packages (apt)
   package:
-    name: "{{ packages }}"
+    name: "{{ additional_packages }}"
     state: latest
 
-- name: Install essential packages (snap)
+- name: Install additional packages (snap)
   snap:
-    name: "{{ snaps }}"
+    name: "{{ additional_snaps }}"
 
 - name: Disable SSH password auth
   lineinfile:

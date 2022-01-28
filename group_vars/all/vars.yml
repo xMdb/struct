@@ -1,9 +1,9 @@
 username: ubuntu
 
-packages:
-  - nginx
+additional_packages:
+  - neofetch
 
-snaps:
+additional_snaps:
   - btop
 
 hostname: "{{ inventory_hostname }}"
@@ -12,9 +12,11 @@ timezone: Australia/Queensland
 
 locale: en_US.UTF-8
 
-dot_nameservers: [1.1.1.1, 1.0.0.1]
+dot_nameservers: ["1.1.1.1", "1.0.0.1"]
 
-lan_network: 192.168.50.0/24
+lan_network: "192.168.50.0/24"
+
+lan_gateway: "192.168.50.1"
 
 # Link to .zshrc file (GitHub raw)
 zshrc_url: https://raw.githubusercontent.com/xMdb/dotfiles/main/.zshrc
@@ -23,3 +25,8 @@ zshrc_url: https://raw.githubusercontent.com/xMdb/dotfiles/main/.zshrc
 p10k_config_url: https://raw.githubusercontent.com/xMdb/dotfiles/main/.p10k.zsh
 
 docker_dir: /opt/docker/data
+
+host_local: local
+
+# User ID (run id username)
+guid: "1000"
