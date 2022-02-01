@@ -23,7 +23,7 @@
     volumes:
       - "{{ docker_dir }}/swag/internal/nginx:/config/nginx"
       - "{{ docker_dir }}/swag/dns-conf:/config/dns-conf"
-      - "{{ docker_dir }}/swag/letsencrypt:/config/etc/letsencrypt"
+      - "{{ docker_dir }}/swag/letsencrypt:/config/keys/letsencrypt"
     restart_policy: unless-stopped
 
 # - name: Make sure the swag_public container is created and running

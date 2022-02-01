@@ -1,0 +1,32 @@
+upstream firefly {
+    server localhost:1001;
+}
+
+server {
+    {% include "components/internal.j2" %}
+
+    {% include "components/params.j2" %}
+
+    server_name firefly.local;
+
+    location / {
+        {% include "components/cors.j2" %}
+
+        send_timeout 5m;
+        proxy_read_timeout 240;
+        proxy_send_timeout 240;
+        proxy_connect_timeout 240;
+        proxy_set_header Host $host:$server_port;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Ssl on;
+        proxy_set_header Connection "";
+        proxy_cache_bypass $cookie_session;
+        proxy_no_cache $cookie_session;
+        proxy_buffers 32 4k;
+
+        proxy_pass http://firefly;
+    }
+}

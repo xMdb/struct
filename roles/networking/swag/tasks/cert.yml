@@ -1,0 +1,10 @@
+---
+- name: Generate an OpenSSL private key
+  community.crypto.openssl_privatekey:
+     path: '{{ docker_dir }}/swag/letsencrypt/privkey.pem'
+
+- name: Generate an OpenSSL self-signed certificate
+  community.crypto.x509_certificate:
+     path: '{{ docker_dir }}/swag/letsencrypt/fullchain.pem'
+     privatekey_path: '{{ docker_dir }}/swag/letsencrypt/privkey.pem'
+     provider: selfsigned

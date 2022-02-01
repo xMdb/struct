@@ -7,8 +7,6 @@ server {
 
     location / {
         {% include "nginx/cors.j2" %}
-        include /config/nginx/proxy.conf;
-        include /config/nginx/resolver.conf;
         set $upstream_app homer;
         set $upstream_port 8080;
         set $upstream_proto http;

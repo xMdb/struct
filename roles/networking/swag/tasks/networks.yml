@@ -1,6 +1,6 @@
 - name: Create an internal macvlan network
   docker_network:
-    name: swag_macvlan
+    name: nginx_macvlan
     driver: macvlan
     driver_options:
       parent: wlan0
@@ -10,7 +10,7 @@
 
 - name: Create an internal network
   docker_network:
-    name: swag_internal_network
+    name: nginx_internal_network
     ipam_config:
       - subnet: "172.20.0.0/16"
 

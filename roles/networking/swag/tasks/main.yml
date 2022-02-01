@@ -1,6 +1,6 @@
 ---
 - include_tasks: networks.yml
-- include_tasks: openssl.yml
+- include_tasks: cert.yml
 - include_tasks: docker.yml
 - include_tasks: configs.yml
 - include_tasks: status.yml

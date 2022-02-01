@@ -27,13 +27,19 @@
   #
   # Networking
   #
-    - role: networking/swag
+    # - role: networking/swag
+    #   tags:
+    #     - network
+    #     - networking
+    #     - swag
+    #     - containers
+
+    - role: networking/nginx
       tags:
         - network
         - networking
-        - swag
+        - nginx
         - containers
-
   #
   # Containers
   #
