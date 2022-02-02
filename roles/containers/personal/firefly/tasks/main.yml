@@ -1,5 +1,5 @@
 ---
-- name: Create Firefly III Directories
+- name: Create Firefly III directories
   file:
      path: '{{ item }}'
      state: directory
@@ -14,7 +14,6 @@
      name: firefly-db
      image: mariadb
      hostname: fireflyiiidb
-     pull: false
      volumes:
         - '{{ docker_dir }}/firefly/mysql:/var/lib/mysql:rw'
      env:
@@ -24,10 +23,12 @@
         MYSQL_ROOT_PASSWORD: 'firefly'
      restart_policy: always
      state: 'started'
+  register: firefly_db
 
 - name: Wait for MariaDB to init
   pause:
      seconds: 5
+  when: firefly_db.changed
 
 - name: Make sure the Firefly III container is created and is running
   docker_container:
@@ -40,8 +41,7 @@
         - firefly-db:db
      ports:
         - 1001:8080
-     domainname: firefly.local
-     pull: false
+     domainname: firefly.box
      state: 'started'
      env:
         APP_ENV: 'local'
