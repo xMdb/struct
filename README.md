@@ -29,6 +29,10 @@ Installs and configures the following:
 
 - Configures all applications/services to use Nginx, and install the correct SSL certificates and configs by using Jinja2 templates
 
+### Other
+
+- Installs Watchtower (automatically updates Docker images)
+
 ## Usage
 
 For this you need a server running Ubuntu 20.04; it probably should be a Raspberry Pi.
