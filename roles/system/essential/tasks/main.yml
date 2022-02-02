@@ -9,7 +9,7 @@
 
 - name: Uninstall duplicate snap packages
   package:
-    name: "{{ snaps }}"
+    name: "{{ additional_snaps }}"
     state: absent
 
 - name: Install additional packages (apt)
