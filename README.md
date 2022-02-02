@@ -20,25 +20,28 @@ I learned the very basics of Ansible (and that it exists) from [Wolfgang's Chann
 
 Installs and configures the following: 
 
-- PiHole + Unbound (DNS filter)
+- PiHole (DNS filter)
 - Firefly III (personal finance manager)
+- Wakapi (developer time tracker)
 - Homer (self-hosted dashboard)
 
 ### Networking
 
-- Configures all applications/services to use SWAG, which includes an Nginx reverse proxy, SSL, and fail2ban.
+- Configures all applications/services to use Nginx, and install the correct SSL certificates and configs by using Jinja2 templates
 
 ## Usage
 
-For this you need a server running Ubuntu.
+For this you need a server running Ubuntu 20.04; it probably should be a Raspberry Pi.
 
 1. [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-specific-operating-systems).
 2. Clone the repo.
 ```bash
 git clone https://github.com/xMdb/structure
 ```
-3. Edit the `hosts` file and adjust the variables.
+3. Edit the `hosts` file and adjust the variables so it can connect to your server.
 4. Run the playbook.
 ```bash
 ansible-playbook run.yml -K
 ```
+
+For future runs, omit the -K, as passwordless sudo will be enabled.
