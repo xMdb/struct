@@ -16,7 +16,7 @@
     image: pihole/pihole:latest
     privileged: yes
     hostname: "{{ inventory_hostname }}"
-    domainname: pihole.local
+    domainname: pihole.box
     state: 'started'
     env:
       "ServerIP": "{{ ansible_default_ipv4.address }}"
