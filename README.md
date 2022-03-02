@@ -28,6 +28,7 @@ Installs and configures the following:
 ### Networking
 
 - Configures all applications/services to use Nginx, and install the correct SSL certificates and configs by using Jinja2 templates
+- Installs Wireguard VPN (access home network from anywhere)
 
 ### Other
 

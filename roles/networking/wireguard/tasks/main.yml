@@ -1,0 +1,25 @@
+---
+- name: Make sure the Wireguard container is created and running
+  docker_container:
+    name: "{{ container_name }}"
+    image: "ghcr.io/linuxserver/wireguard"
+    privileged: yes
+    sysctls:
+      "net.ipv4.conf.all.src_valid_mark": "1"
+    capabilities: 
+      - net_admin
+      - sys_module
+    state: 'started'
+    env:
+      "PUID": "{{ guid }}"
+      "PGID": "{{ guid }}"
+      "TZ": "{{ timezone }}"
+      "SERVERURL": "auto"
+      "PEERDNS": "{{ vpn_dns }}"
+      "PEERS": "{{ ','.join(vpn_peers) }}"
+    ports:
+      - "51820/udp:51820/udp"
+    volumes:
+      - "{{ docker_dir }}/{{ container_name }}/config:/config"
+      - "/lib/modules:/lib/modules"
+    restart_policy: always

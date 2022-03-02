@@ -2,67 +2,73 @@
 - hosts: all
   become: yes
   roles:
+     #
+     # Basics
+     #
+     - role: system/essential
+       tags:
+          - essential
+          - system
 
-  #
-  # Basics
-  #
-    - role: system/essential
-      tags:
-        - essential
-        - system
-    
-    - role: system/shell
-      tags:
-        - shell
-        - zsh
-        - oh-my-zsh
-        - system
-    
-    - role: system/docker
-      tags:
-        - docker
-        - system
-        - containers
+     - role: system/shell
+       tags:
+          - shell
+          - zsh
+          - oh-my-zsh
+          - system
 
-  #
-  # Networking
-  #
-    # - role: networking/swag
-    #   tags:
-    #     - network
-    #     - networking
-    #     - swag
-    #     - containers
+     - role: system/docker
+       tags:
+          - docker
+          - system
+          - containers
 
-    - role: networking/nginx
-      tags:
-        - network
-        - networking
-        - nginx
-        - containers
-  #
-  # Containers
-  #
-    - role: containers/services/watchtower
-      tags:
-        - containers
-        - services
-        - watchtower
+     #
+     # Networking
+     #
+     # - role: networking/swag
+     #   tags:
+     #     - network
+     #     - networking
+     #     - swag
+     #     - containers
 
-    - role: containers/services/pihole
-      tags:
-        - pihole
-        - containers
-        - services
-    
-    - role: containers/services/wakapi
-      tags:
-        - wakapi
-        - containers
-        - services
+     - role: networking/nginx
+       tags:
+          - network
+          - networking
+          - nginx
+          - containers
 
-    - role: containers/personal/firefly
-      tags:
-        - firefly
-        - containers
-        - personal
+     - role: networking/wireguard
+       tags:
+          - network
+          - networking
+          - wireguard
+          - vpn
+     #
+     # Containers
+     #
+     - role: containers/services/watchtower
+       tags:
+          - containers
+          - services
+          - watchtower
+
+     - role: containers/services/pihole
+       tags:
+          - pihole
+          - containers
+          - services
+
+     - role: containers/services/wakapi
+       tags:
+          - wakapi
+          - containers
+          - services
+
+     - role: containers/personal/firefly
+       tags:
+          - firefly
+          - containers
+          - personal
