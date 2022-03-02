@@ -1,14 +1,25 @@
 ---
-- name: Stop and disable the existing DNS service
-  service:
-    name: systemd-resolved.service
-    state: stopped
-
-- name: Change default DNS server
+- name: Disable the DNS stub listener
   lineinfile:
+    dest: /etc/systemd/resolved.conf
+    regexp: "^#?DNSStubListener=yes"
+    line: "DNSStubListener=no"
+
+- name: Remove the existing symlink
+  file:
+    path: /etc/resolv.conf
+    state: absent
+
+- name: Point a new symlink to the other file
+  file:
+    src: /run/systemd/resolve/resolv.conf
     dest: /etc/resolv.conf
-    regexp: "^nameserver (.+)"
-    line: "nameserver 1.1.1.1"
+    state: link
+
+- name: Restart systemd-resolved
+  service:
+    name: systemd-resolved
+    state: restarted
 
 - name: Make sure the {{ container_name }} container is created and is running
   docker_container:
@@ -35,4 +46,4 @@
       - "81:80/tcp"
       - "{{ ansible_default_ipv4.address }}:53:53/tcp"
       - "{{ ansible_default_ipv4.address }}:53:53/udp"
-    restart_policy: unless-stopped
+    restart_policy: always
