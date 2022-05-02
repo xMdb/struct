@@ -23,3 +23,24 @@
       - "{{ docker_dir }}/{{ container_name }}/config:/config"
       - "/lib/modules:/lib/modules"
     restart_policy: always
+  register: wireguard
+
+- name: Hang on a sec...
+  pause:
+     seconds: 5
+  when: wireguard.changed
+
+- name: Copy VPN client QR codes from container
+  command: "sudo docker cp {{ container_name }}:/config/peer_{{ item }}/peer_{{ item }}.png /tmp/peer_{{ item }}.png"
+  with_items: "{{ vpn_peers }}"
+
+- name: Fetch VPN client QR codes
+  fetch:
+    src: "/tmp/peer_{{ item }}.png"
+    dest: "./output/"
+    flat: yes
+  with_items: "{{ vpn_peers }}"
+
+- name: Information
+  debug:
+    msg: You can find the QR codes used for Wireguard VPN clients in the ./output/ directory.
