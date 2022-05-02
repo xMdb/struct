@@ -1,2 +1,2 @@
-[servers]
+[home]
 pi ansible_host=192.168.50.114 ansible_user=ubuntu ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homeserver_key
