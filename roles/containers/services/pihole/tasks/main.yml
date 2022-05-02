@@ -25,20 +25,18 @@
   docker_container:
     name: "{{ container_name }}"
     image: pihole/pihole:latest
-    privileged: yes
     hostname: "{{ inventory_hostname }}"
     domainname: pihole.box
     state: 'started'
     env:
-      "ServerIP": "{{ ansible_default_ipv4.address }}"
       "TZ": "{{ timezone }}"
       "WEBPASSWORD": "{{ pihole_password }}"
+      "FTLCONF_REPLY_ADDR4": "{{ ansible_default_ipv4.address }}"
       "REV_SERVER": "true"
       "REV_SERVER_DOMAIN": "box"
       "REV_SERVER_TARGET": "{{ ansible_default_ipv4.gateway }}"
       "REV_SERVER_CIDR": "{{ '.'.join(ansible_default_ipv4.address.split('.')[0:3]) }}.0/24"
       "DNSSEC": "true" # Enable DNSSEC
-      "DOMAIN_NAME": "pihole.box"
     volumes:
       - "{{ docker_dir }}/{{ container_name }}/pihole:/etc/pihole"
       - "{{ docker_dir }}/{{ container_name }}/dnmasq:/etc/dnsmasq.d"
@@ -46,4 +44,4 @@
       - "81:80/tcp"
       - "{{ ansible_default_ipv4.address }}:53:53/tcp"
       - "{{ ansible_default_ipv4.address }}:53:53/udp"
-    restart_policy: always
+    restart_policy: unless-stopped
