@@ -49,11 +49,11 @@
      #
      # Containers
      #
-     - role: containers/services/watchtower
-       tags:
-          - containers
-          - services
-          - watchtower
+    #  - role: containers/services/watchtower
+    #    tags:
+    #       - containers
+    #       - services
+    #       - watchtower
 
      - role: containers/services/pihole
        tags:
@@ -66,9 +66,3 @@
           - wakapi
           - containers
           - services
-
-     - role: containers/personal/firefly
-       tags:
-          - firefly
-          - containers
-          - personal
