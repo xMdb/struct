@@ -3,7 +3,7 @@
     update_cache: yes
     upgrade: yes
 
-- name: Uninstall old/unwanted packages
+- name: Auto-remove old packages
   apt:
     autoremove: yes
 
@@ -11,15 +11,18 @@
   package:
     name: "{{ additional_snaps }}"
     state: absent
+  when: additional_snaps is defined
 
 - name: Install additional packages (apt)
   package:
     name: "{{ additional_packages }}"
     state: latest
+  when: additional_packages is defined
 
 - name: Install additional packages (snap)
   snap:
     name: "{{ additional_snaps }}"
+  when: additional_snaps is defined
 
 - name: Disable SSH password auth
   lineinfile:
@@ -44,6 +47,8 @@
 - name: Set the hostname
   hostname:
     name: "{{ hostname }}"
+  when: hostname is defined
+  register: new_hostname
 
 - name: Replace the hostname entry with our own
   lineinfile:
@@ -53,6 +58,7 @@
     owner: root
     group: root
     mode: '0644'
+  when: new_hostname.changed
 
 - name: Disable cron e-mail notifications
   cron:
@@ -69,6 +75,7 @@
     path: /etc/timezone
     regexp: "^(.*)"
     line: "{{ timezone }}"
+  when: timezone is defined
 
 - name: Check if reboot is required
   stat:
