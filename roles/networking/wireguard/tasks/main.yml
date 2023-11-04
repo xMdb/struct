@@ -14,7 +14,7 @@
       "PUID": "{{ guid }}"
       "PGID": "{{ guid }}"
       "TZ": "{{ timezone }}"
-      "SERVERURL": "auto"
+      "SERVERURL": "{{ public_ipv4 }}"
       "PEERDNS": "{{ vpn_dns }}"
       "PEERS": "{{ ','.join(vpn_peers) }}"
     ports:

@@ -24,7 +24,7 @@
 - name: Make sure the {{ container_name }} container is created and is running
   docker_container:
     name: "{{ container_name }}"
-    image: pihole/pihole:latest
+    image: pihole/pihole:2023.05.2
     hostname: "{{ inventory_hostname }}"
     domainname: pihole.box
     state: 'started'
@@ -44,4 +44,4 @@
       - "81:80/tcp"
       - "{{ ansible_default_ipv4.address }}:53:53/tcp"
       - "{{ ansible_default_ipv4.address }}:53:53/udp"
-    restart_policy: always
+    restart_policy: unless-stopped
