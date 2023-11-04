@@ -44,4 +44,4 @@
       - "81:80/tcp"
       - "{{ ansible_default_ipv4.address }}:53:53/tcp"
       - "{{ ansible_default_ipv4.address }}:53:53/udp"
-    restart_policy: unless-stopped
+    restart_policy: always

@@ -2,7 +2,7 @@
 - name: Make sure the Wireguard container is created and running
   docker_container:
     name: "{{ container_name }}"
-    image: "ghcr.io/linuxserver/wireguard"
+    image: "ghcr.io/linuxserver/wireguard:latest"
     privileged: yes
     sysctls:
       "net.ipv4.conf.all.src_valid_mark": "1"
@@ -41,6 +41,17 @@
     flat: yes
   with_items: "{{ vpn_peers }}"
 
+- name: Copy VPN client tunnel configs from container
+  command: "sudo docker cp {{ container_name }}:/config/peer_{{ item }}/peer_{{ item }}.conf /tmp/peer_{{ item }}.conf"
+  with_items: "{{ vpn_peers }}"
+
+- name: Fetch VPN client tunnel configs
+  fetch:
+    src: "/tmp/peer_{{ item }}.conf"
+    dest: "./output/"
+    flat: yes
+  with_items: "{{ vpn_peers }}"
+
 - name: Information
   debug:
-    msg: You can find the QR codes used for Wireguard VPN clients in the ./output/ directory.
+    msg: You can find the QR codes and config files used for Wireguard VPN clients in the ./output directory.

@@ -12,11 +12,11 @@ timezone: Australia/Queensland
 
 locale: en_US.UTF-8
 
-dot_nameservers: ["1.1.1.1", "1.0.0.1"]
+dot_nameservers: ["9.9.9.9", "149.112.112.112"]
 
-lan_network: "192.168.50.0/24"
+lan_network: "10.0.0.0/8"
 
-lan_gateway: "192.168.50.1"
+lan_gateway: "10.1.15.1"
 
 docker_network: "172.17.0.0/16"
 
@@ -34,6 +34,6 @@ host_local: box
 guid: "1000"
 
 # 9.9.9.9 for example (currently using Pi-Hole)
-vpn_dns: "192.168.50.114"
+vpn_dns: "10.1.15.18"
 
-vpn_peers: ["iPad", "iPhone"]
+vpn_peers: ["iPad", "iPhone", "mumPhone", "mumiPad", "mumMac", "dadLaptop", "dadPhone", "zach"]

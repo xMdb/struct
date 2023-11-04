@@ -1,0 +1,36 @@
+vrrp_instance pihole {
+  state BACKUP
+  interface eth0
+  virtual_router_id 100
+  priority 100
+
+  authentication {
+    auth_type PASS
+    auth_pass 2353ZU3f
+  }
+
+  virtual_ipaddress {
+    10.1.15.20/24 dev eth0
+  }
+}
+
+# Check for TCP
+virtual_server 10.1.15.20 53 {
+  delay_loop 6
+  lb_algo wlc
+  protocol TCP
+
+  real_server 10.1.15.18 53 {
+    weight 100
+    TCP_CHECK {
+      connect_timeout 6
+    }
+  }
+
+  real_server 10.0.10.155 53 {
+    weight 100
+    TCP_CHECK {
+      connect_timeout 6
+    }
+  }
+}
