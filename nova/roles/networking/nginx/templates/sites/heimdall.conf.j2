@@ -1,0 +1,20 @@
+upstream heimdall {
+    server localhost:1011;
+}
+
+server {
+    {% include "components/internal.j2" %}
+
+    {% include "components/params.j2" %}
+
+    server_name heimdall.box;
+
+    location / {
+        {% include "components/cors.j2" %}
+        proxy_pass http://heimdall;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $server_name;
+    }
+}

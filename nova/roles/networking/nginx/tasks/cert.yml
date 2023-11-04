@@ -1,0 +1,15 @@
+---
+- name: Create the certs folder
+  file:
+    path: /etc/nginx/certs
+    state: directory
+
+- name: Generate an OpenSSL private key
+  community.crypto.openssl_privatekey:
+     path: '/etc/nginx/certs/privkey.pem'
+
+- name: Generate an OpenSSL self-signed certificate
+  community.crypto.x509_certificate:
+     path: '/etc/nginx/certs/fullchain.pem'
+     privatekey_path: '/etc/nginx/certs/privkey.pem'
+     provider: selfsigned

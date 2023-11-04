@@ -1,0 +1,63 @@
+---
+- hosts: all
+  become: yes
+  roles:
+     #
+     # Basics
+     #
+     - role: system/essential
+       tags:
+          - essential
+          - system
+
+     - role: system/shell
+       tags:
+          - shell
+          - zsh
+          - oh-my-zsh
+          - system
+
+     - role: system/docker
+       tags:
+          - docker
+          - system
+          - containers
+
+     - role: system/filesystems/hd-idle
+       tags:
+          - hd-idle
+          - system
+          - filesystem
+          - filesystems
+
+     #
+     # Networking
+     #
+     # - role: networking/swag
+     #   tags:
+     #     - network
+     #     - networking
+     #     - swag
+     #     - containers
+
+     - role: networking/nginx
+       tags:
+          - network
+          - networking
+          - nginx
+          - containers
+
+     #
+     # Containers
+     #
+    #  - role: containers/services/watchtower
+    #    tags:
+    #       - containers
+    #       - services
+    #       - watchtower
+
+    #  - role: containers/services/wakapi
+    #    tags:
+    #       - wakapi
+    #       - containers
+    #       - services

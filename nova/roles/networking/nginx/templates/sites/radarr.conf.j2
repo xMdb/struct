@@ -1,0 +1,16 @@
+upstream radarr {
+    server localhost:7879;
+}
+
+server {
+    {% include "components/internal.j2" %}
+
+    {% include "components/params.j2" %}
+
+    server_name radarr.box;
+
+    location / {
+        {% include "components/cors.j2" %}
+        proxy_pass http://radarr;
+    }
+}

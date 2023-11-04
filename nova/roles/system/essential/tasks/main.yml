@@ -1,0 +1,88 @@
+- name: Update packages
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: Auto-remove old packages
+  apt:
+    autoremove: yes
+
+- name: Uninstall duplicate snap packages
+  package:
+    name: "{{ additional_snaps }}"
+    state: absent
+  when: additional_snaps is defined
+
+- name: Install additional packages (apt)
+  package:
+    name: "{{ additional_packages }}"
+    state: latest
+  when: additional_packages is defined
+
+- name: Install additional packages (snap)
+  snap:
+    name: "{{ additional_snaps }}"
+  when: additional_snaps is defined
+
+- name: Disable SSH password auth
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#PasswordAuthentication yes"
+    line: "PasswordAuthentication no"
+  register: sshd_config
+
+- name: Enable passwordless sudo for "{{ username }}" user
+  lineinfile:
+    path: /etc/sudoers
+    regexp: "^%wheel%"
+    line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: Restart SSH daemon
+  service:
+    name: sshd
+    state: restarted
+  when: sshd_config.changed
+
+- name: Set the hostname
+  hostname:
+    name: "{{ hostname }}"
+  when: hostname is defined
+  register: new_hostname
+
+- name: Replace the hostname entry with our own
+  lineinfile:
+    path: /etc/hosts
+    insertafter: ^127\.0\.0\.1 *localhost
+    line: "127.0.0.1 {{ hostname }}"
+    owner: root
+    group: root
+    mode: '0644'
+  when: new_hostname.changed
+
+- name: Disable cron e-mail notifications
+  cron:
+    name: MAILTO
+    user: "{{ item }}"
+    env: yes
+    job: ""
+  with_items:
+    - root
+    - "{{ username }}"
+
+- name: Set timezone
+  lineinfile:
+    path: /etc/timezone
+    regexp: "^(.*)"
+    line: "{{ timezone }}"
+  when: timezone is defined
+
+- name: Check if reboot is required
+  stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: Reboot if required
+  reboot:
+    msg: Rebooting due to a kernel update
+  when: reboot_required_file.stat.exists

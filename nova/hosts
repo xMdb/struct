@@ -1,0 +1,2 @@
+[home]
+nova ansible_host=10.1.15.222 ansible_user=matt ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homeserver_key

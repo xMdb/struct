@@ -1,0 +1,40 @@
+---
+- name: Remove the default config file in conf.d
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+
+- name: Remove the default config file in sites-available
+  file:
+    path: /etc/nginx/sites-available/default
+    state: absent
+
+- name: Remove the default config file in sites-enabled
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Install the Nginx config files
+  template:
+    src: "{{ item }}"
+    dest: "/etc/nginx/conf.d/{{ item | basename | regex_replace('.j2$', '') }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0644
+  with_fileglob:
+    - templates/sites/*.j2
+  register: nginx_configs
+
+- name: Test configs
+  command:
+    cmd: sudo nginx -t
+  register: nginx_test
+  changed_when: nginx_test is not search("test is successful")
+  failed_when: nginx_test is not search("test is successful")
+
+- name: Restart Nginx
+  service:
+    name: nginx
+    state: restarted
+  when: nginx_configs.changed
+  

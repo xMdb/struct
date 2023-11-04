@@ -1,0 +1,33 @@
+username: matt
+
+additional_packages:
+  - neofetch
+
+additional_snaps:
+  - btop
+
+hostname: "{{ inventory_hostname }}"
+
+timezone: Australia/Brisbane
+
+lan_network: "10.0.0.0/8"
+
+lan_gateway: "10.1.15.1"
+
+docker_network: "172.0.0.0/8"
+
+# Link to .zshrc file (GitHub raw)
+zshrc_url: https://raw.githubusercontent.com/xMdb/dotfiles/main/.zshrc
+
+# Link to .p10k.zsh (Powerline10k theme config) file (GitHub raw) 
+p10k_config_url: https://raw.githubusercontent.com/xMdb/dotfiles/main/.p10k.zsh
+
+docker_dir: /opt/docker/data
+
+host_local: box
+
+# User ID (run id username)
+guid: "1000"
+
+# Drive spindown (seconds)
+spindown_time: 600

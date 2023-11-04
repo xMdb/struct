@@ -1,0 +1,6 @@
+
+    proxy_hide_header Upgrade;
+    add_header X-Robots-Tag "noindex, nofollow, nosnippet, noarchive"; 
+    add_header Strict-Transport-Security 'max-age=31536000; includeSubDomains; preload';
+    add_header X-Content-Type-Options nosniff;
+    gzip on;

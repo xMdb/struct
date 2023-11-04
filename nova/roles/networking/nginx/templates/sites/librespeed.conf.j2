@@ -1,0 +1,16 @@
+upstream librespeed {
+    server localhost:6001;
+}
+
+server {
+    {% include "components/internal.j2" %}
+
+    {% include "components/params.j2" %}
+
+    server_name librespeed.box;
+
+    location / {
+        {% include "components/cors.j2" %}
+        proxy_pass http://librespeed;
+    }
+}
