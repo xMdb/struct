@@ -36,4 +36,4 @@ guid: "1000"
 # 9.9.9.9 for example (currently using Pi-Hole)
 vpn_dns: "10.1.15.18"
 
-vpn_peers: ["iPad", "iPhone", "mumPhone", "mumiPad", "mumMac", "dadLaptop", "dadPhone", "zach"]
+vpn_peers: ["iPad", "iPhone", "mac", "mumMac", "dadLaptop", "zach"]

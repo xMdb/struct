@@ -1,5 +1,5 @@
-upstream deluge {
-    server localhost:8112;
+upstream bazarr {
+    server localhost:6767;
 }
 
 server {
@@ -7,10 +7,10 @@ server {
 
     {% include "components/params.j2" %}
 
-    server_name deluge.box;
+    server_name bazarr.box;
 
     location / {
         {% include "components/cors.j2" %}
-        proxy_pass http://deluge;
+        proxy_pass http://bazarr;
     }
 }

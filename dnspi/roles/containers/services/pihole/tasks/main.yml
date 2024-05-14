@@ -24,7 +24,7 @@
 - name: Make sure the {{ container_name }} container is created and is running
   docker_container:
     name: "{{ container_name }}"
-    image: pihole/pihole:2023.05.2
+    image: pihole/pihole:2024.03.2
     hostname: "{{ inventory_hostname }}"
     domainname: pihole.box
     state: 'started'

@@ -1,5 +1,5 @@
-upstream sonarr {
-    server localhost:8988;
+upstream prowlarr {
+    server localhost:9696;
 }
 
 server {
@@ -7,11 +7,11 @@ server {
 
     {% include "components/params.j2" %}
 
-    server_name sonarr.box;
+    server_name prowlarr.box;
 
     location / {
         {% include "components/cors.j2" %}
-        proxy_pass http://sonarr;
+        proxy_pass http://prowlarr;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $http_connection;
